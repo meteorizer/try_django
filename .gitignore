@@ -2,3 +2,4 @@
 "__pycache__" 
 "*.pyc" 
 "superlists/__pycache__/" 
+".vscode/"
