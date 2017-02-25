@@ -3,3 +3,4 @@
 "*.pyc" 
 "superlists/__pycache__/" 
 ".vscode/"
+"*.log"
