@@ -1,7 +1,20 @@
-"db.sqlite3" 
-"__pycache__" 
-"*.pyc" 
-"superlists/__pycache__/" 
-".vscode/"
-"*.log"
-"**/__pycache__/" 
+
+# Created by https://www.gitignore.io/api/django,visualstudiocode
+
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+media
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# End of https://www.gitignore.io/api/django,visualstudiocode
