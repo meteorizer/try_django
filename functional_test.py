@@ -3,6 +3,7 @@
 
 import unittest
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 class NewVisitorTest(unittest.TestCase):
     """unit test"""
@@ -20,17 +21,32 @@ class NewVisitorTest(unittest.TestCase):
 
         # 웹페이지 타이틀과 헤더가 "To-Do"를 표시하고 있다.
         self.assertIn("To-Do", self.browser.title)
-        self.fail('Finish the test!')
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('To-Do', header_text)
 
         # 새 작업을 추가해본다.
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            '작업아이템입력'
+        )
 
         # "부장 뒷다마 까기"를 텍스트 상자에 입력한다.
+        inputbox.send_keys('부장 뒷다마 까기')
 
         # 엔터키를 치면 페이지가 갱신되고 작업 목록에
         # "1: 부장 뒷다마 까기" 아이템이 추가된다.
+        inputbox.send_keys(Keys.ENTER)
+
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertTrue(
+            any(row.text == '1: 부장 뒷다마 까기' for row in rows),
+        )
 
         # 추가 아이템을 입력할 수 있는 여분의 텍스트상타자가 존재한다.
         # 다시 "이어서 본부장 뒷다마 까기"라고 입력한다. (맹과장은 꽤나 불만이 많은 사람이다.)
+        self.fail('Finish the test!')
 
         # 페이지는 다시 갱신되고, 두개 아이템이 목록에 보인다.
         # 맹과장은 혹 누가 나중에 이걸 볼까 노심초사한다.
