@@ -1,10 +1,21 @@
 <html>
     <head>
         <title>To-Do lists</title>
+        <style>
+            td {border: 1px solid black;}
+        </style>
     </head>
     <body>
         <h1>To-Do lists</h1>
-        <input type="text" id="id_new_item" placeholder="작업아이템입력">
-        <table id="id_list_table"></table>
+        <form method="POST">
+            <input type="text" id="id_new_item" name="id_new_item" placeholder="작업아이템입력" value="">
+            {% csrf_token %}
+            <input type="submit" value="shot">
+        </form>
+        <table id="id_list_table">
+            <tr>
+                <td>1: {{ new_item_text }}</td>
+            </tr>
+        </table>
     </body>
 </html>

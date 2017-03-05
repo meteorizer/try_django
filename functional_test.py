@@ -2,6 +2,7 @@
 """selenium test work"""
 
 import unittest
+import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
@@ -38,18 +39,22 @@ class NewVisitorTest(unittest.TestCase):
         # "1: 부장 뒷다마 까기" 아이템이 추가된다.
         inputbox.send_keys(Keys.ENTER)
 
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: 부장 뒷다마 까기' for row in rows),
-            "신규 작업이 테이블에 표시되지 않는다."
-        )
+        time.sleep(1)
 
         # 추가 아이템을 입력할 수 있는 여분의 텍스트상타자가 존재한다.
+        inputbox = self.browser.find_element_by_id('id_new_item')
         # 다시 "이어서 본부장 뒷다마 까기"라고 입력한다. (맹과장은 꽤나 불만이 많은 사람이다.)
-        self.fail('Finish the test!')
+        inputbox.send_keys('본부장 뒷다마 까기')
+        inputbox.send_keys(Keys.ENTER)
+
+        time.sleep(1)
 
         # 페이지는 다시 갱신되고, 두개 아이템이 목록에 보인다.
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: 부장 뒷다마 까기', [row.text for row in rows])
+        self.assertIn('2: 본부장 뒷다마 까기', [row.text for row in rows])
+
         # 맹과장은 혹 누가 나중에 이걸 볼까 노심초사한다.
         # 사이트는 맹과장을 위한 URL을 생성해준다.
         # 이때 URL에 대한 설명도 함께 제공한다.
@@ -57,7 +62,7 @@ class NewVisitorTest(unittest.TestCase):
         # 해당 URL이 알려지면 맹과장은 전사적으로 까이게 된다.
 
         # 삭제 방법을 개발자에 묻기도 하고 불안에 떨면 사이트를 닫는다.
-
+        self.fail('Finish the test!')
 
 if __name__ == "__main__":
     unittest.main(warnings='ignore')
