@@ -5,8 +5,9 @@ import unittest
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from django.test import LiveServerTestCase
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     """unit test"""
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -23,7 +24,7 @@ class NewVisitorTest(unittest.TestCase):
     def test_can_start_a_list_and_retrive_it_later(self):
         # 맹과장이 업무 목록 앱을 사용하려고 한다.
         # 웹을 까본다.
-        self.browser.get("http://localhost:8000")
+        self.browser.get(self.live_server_url)
 
         # 웹페이지 타이틀과 헤더가 "To-Do"를 표시하고 있다.
         self.assertIn("To-Do", self.browser.title)
@@ -67,6 +68,3 @@ class NewVisitorTest(unittest.TestCase):
 
         # 삭제 방법을 개발자에 묻기도 하고 불안에 떨면 사이트를 닫는다.
         self.fail('Finish the test!')
-
-if __name__ == "__main__":
-    unittest.main(warnings='ignore')
