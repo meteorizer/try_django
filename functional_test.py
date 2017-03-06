@@ -31,7 +31,7 @@ class NewVisitorTest(unittest.TestCase):
         self.assertIn('To-Do', header_text)
 
         # 새 작업을 추가해본다.
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.browser.find_element_by_id('item_text')
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             '작업아이템입력'
@@ -48,7 +48,7 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
 
         # 추가 아이템을 입력할 수 있는 여분의 텍스트상타자가 존재한다.
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.browser.find_element_by_id('item_text')
         # 다시 "이어서 본부장 뒷다마 까기"라고 입력한다. (맹과장은 꽤나 불만이 많은 사람이다.)
         inputbox.send_keys('본부장 뒷다마 까기')
         inputbox.send_keys(Keys.ENTER)
