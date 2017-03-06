@@ -45,6 +45,8 @@ class NewVisitorTest(LiveServerTestCase):
         # "1: 부장 뒷다마 까기" 아이템이 추가된다.
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
+        mang_list_url = self.browser.current_url
+        self.assertRegex(mang_list_url, '/lists/.+')
         self.check_for_row_in_list_table('1: 부장 뒷다마 까기')
         time.sleep(1)
 
@@ -66,5 +68,35 @@ class NewVisitorTest(LiveServerTestCase):
 
         # 해당 URL이 알려지면 맹과장은 전사적으로 까이게 된다.
 
-        # 삭제 방법을 개발자에 묻기도 하고 불안에 떨면 사이트를 닫는다.
+        # 새로운 사용자인 송대리가 사이트에 접속한다.
+
+        ## 새로운 브라우저 세션을 이용하여 에디스의 정보가 
+        ## 쿠키를 통해 유입되는 것을 방지한다.
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+
+        # 송대리가 홈페이지에 접속한다.
+        # 맹과장의 리스트는 보이지 않는다.
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('부장 뒷다마 까기', page_text)
+        self.assertNotIn('본부장 뒷다마 까기', page_text)
+
+        # 송대리가 새로운 작업 아이템을 입력하기 시작한다.
+        inputbox = self.browser.find_element_by_id('item_text')
+        inputbox.send_keys('우유 사기')
+        inputbox.send_keys(Keys.ENTER)
+
+        # 송대리가 전용 URL을 취득한다.
+        song_list_url = self.browser.current_url
+        self.assertRegex(song_list_url, '/lists/.+')
+        self.assertNotEqual(song_list_url, mang_list_url)
+
+        # 맹과장이 입력한 흔적이 없다는 것을 다시 확인한다.
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('부장 뒷다마 까기', page_text)
+        self.assertIn('우유 사기', page_text)
+
+        # 둘다 만족하고 끝난다.
+
         self.fail('Finish the test!')
