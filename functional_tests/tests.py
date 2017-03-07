@@ -86,6 +86,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('item_text')
         inputbox.send_keys('우유 사기')
         inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         # 송대리가 전용 URL을 취득한다.
         song_list_url = self.browser.current_url
