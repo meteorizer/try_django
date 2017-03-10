@@ -7,7 +7,7 @@
     </head>
     <body>
         <h1>To-Do lists</h1>
-        <form method="POST">
+        <form method="POST" action="/lists/new">
             <input type="text" id="item_text" name="item_text" placeholder="작업아이템입력" value="">
             {% csrf_token %}
             <input type="submit" value="shot">
