@@ -100,4 +100,4 @@ class NewVisitorTest(LiveServerTestCase):
 
         # 둘다 만족하고 끝난다.
 
-        self.fail('Finish the test!')
+        # self.fail('Finish the test!')
