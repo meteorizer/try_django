@@ -72,7 +72,9 @@ class NewVisitorTest(LiveServerTestCase):
 
         ## 새로운 브라우저 세션을 이용하여 에디스의 정보가 
         ## 쿠키를 통해 유입되는 것을 방지한다.
+        time.sleep(1)
         self.browser.quit()
+        time.sleep(1)
         self.browser = webdriver.Firefox()
 
         # 송대리가 홈페이지에 접속한다.
