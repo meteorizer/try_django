@@ -1,6 +1,7 @@
 
 """selenium test work"""
 
+import sys
 import unittest
 import time
 from selenium import webdriver
@@ -10,11 +11,27 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 class NewVisitorTest(StaticLiveServerTestCase):
     """unit test"""
+
+    @classmethod
+    def setUpClass(cls):
+        for arg in sys.argv:
+            if 'liveserver' in arg:
+                cls.server_url = 'http://' + arg.split('=')[1]
+                return
+        super().setUpClass()
+        cls.server_url = cls.live_server_url
+    
+    @classmethod
+    def tearDownClass(cls):
+        if cls.server_url == cls.live_server_url:
+            super().tearDownClass()
+
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
+        self.browser.refresh()
         self.browser.quit()
 
     def check_for_row_in_list_table(self, row_text):
@@ -25,7 +42,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
     def test_can_start_a_list_and_retrive_it_later(self):
         # 맹과장이 업무 목록 앱을 사용하려고 한다.
         # 웹을 까본다.
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
 
         # 웹페이지 타이틀과 헤더가 "To-Do"를 표시하고 있다.
         self.assertIn("To-Do", self.browser.title)
@@ -73,15 +90,15 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         ## 새로운 브라우저 세션을 이용하여 에디스의 정보가 
         ## 쿠키를 통해 유입되는 것을 방지한다.
-        time.sleep(1)
         self.browser.refresh()
-        self.browser.quit()
         time.sleep(1)
+        self.browser.quit()
+
         self.browser = webdriver.Firefox()
 
         # 송대리가 홈페이지에 접속한다.
         # 맹과장의 리스트는 보이지 않는다.
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('부장 뒷다마 까기', page_text)
         self.assertNotIn('본부장 뒷다마 까기', page_text)
@@ -107,7 +124,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # self.fail('Finish the test!')
 
     def test_layout_and_styling(self):
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
         self.browser.set_window_size(1024, 768)
 
         inputbox = self.browser.find_element_by_id('item_text')
