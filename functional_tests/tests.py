@@ -6,8 +6,9 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     """unit test"""
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -73,6 +74,7 @@ class NewVisitorTest(LiveServerTestCase):
         ## 새로운 브라우저 세션을 이용하여 에디스의 정보가 
         ## 쿠키를 통해 유입되는 것을 방지한다.
         time.sleep(1)
+        self.browser.refresh()
         self.browser.quit()
         time.sleep(1)
         self.browser = webdriver.Firefox()
@@ -112,5 +114,5 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2,
             512,
-            delta=10
+            delta=50
         )
