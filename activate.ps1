@@ -1,1 +1,0 @@
-C:\Users\meteo\Envs\django\Scripts\activate.ps1
