@@ -10,6 +10,7 @@ local_settings.py
 db.sqlite3
 media
 
+activate.ps1
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
